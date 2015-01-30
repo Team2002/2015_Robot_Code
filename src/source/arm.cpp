@@ -1,21 +1,29 @@
 #include "arm.h"
 
-Arm::Arm()
+arm::arm(int piston_port_1, int piston_port_2)
 {
+	piston = new DoubleSolenoid(piston_port_1, piston_port_2);
 	arm_state = false;
 }
-
-bool Arm::is_up() const {return arm_state;}
-
-void Arm::up()
+arm::~arm()
 {
+	delete piston;
 }
 
-void Arm::down()
-{
+bool arm::is_up() const {return arm_state;}
 
+void arm::up()
+{
+	piston->Set(DoubleSolenoid::kForward);
+	arm_state = true;
 }
-void Arm::toggle()
+
+void arm::down()
+{
+	piston->Set(DoubleSolenoid::kReverse);
+	arm_state = false;
+}
+void arm::toggle()
 {
 
 }
